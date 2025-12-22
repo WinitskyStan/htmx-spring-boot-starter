@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMX Counter Demo</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .counter-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .count {
+            font-size: 3em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <h1>Counter Demo</h1>
+        <div id="count-display" th:fragment="count-display">
+            <div class="count" th:text="${count}">0</div>
+        </div>
+        <button
+            hx-post="/counter/increment"
+            hx-target="#count-display"
+            hx-swap="outerHTML">
+            Increment
+        </button>
+    </div>
+</body>
+</html>
