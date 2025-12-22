@@ -60,16 +60,26 @@ class FeatureControllerTest {
 ## Git Conventions
 
 ### Commit Messages
-- One line only
-- No author attribution
-- Start with action verb
-- Be specific and concise
+- **One line only** — no multi-line messages, no body text
+- **No author attribution or credits** — never include co-author tags, tool attribution, or emojis
+- **Start with action verb** — use Add, Update, Fix, Remove, Rename, etc.
+- **Be specific and concise** — clearly describe what changed
 
-**Examples:**
+**Good examples:**
 ```
 Add initial Spring Boot HTMX counter demo with package-by-feature structure
 Rename index.html to counter.html for better package-by-feature naming
 Add integration tests for CounterController using Spring Boot test facilities
+Add comprehensive README for HTMX Spring Boot Starter project
+```
+
+**NEVER DO THIS:**
+```
+Add comprehensive README
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
 ```
 
 ## Technology Stack
