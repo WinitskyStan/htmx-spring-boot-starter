@@ -17,12 +17,12 @@ public class CounterController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("count", counterService.getCount());
-        return "counter/index";
+        return "counter/counter";
     }
 
     @PostMapping("/counter/increment")
     public String increment(Model model) {
         model.addAttribute("count", counterService.increment());
-        return "counter/index :: count-display";
+        return "counter/counter :: count-display";
     }
 }
