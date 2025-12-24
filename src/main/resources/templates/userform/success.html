@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div id="form-section" th:fragment="form-section-success">
+        <div class="success-box">
+            <h2>Success! ✓</h2>
+            <p>Your form has been submitted successfully!</p>
+            <p><strong>Name:</strong> <span th:text="${userForm.name}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${userForm.email}"></span></p>
+            <p><strong>Phone:</strong> <span th:text="${userForm.phone}"></span></p>
+            <p><strong>Tags:</strong> <span th:text="${#strings.listJoin(userForm.tags, ', ')}"></span></p>
+            <a href="/userform" style="display: inline-block; margin-top: 15px;">Start Over</a>
+        </div>
+    </div>
+</body>
+</html>
