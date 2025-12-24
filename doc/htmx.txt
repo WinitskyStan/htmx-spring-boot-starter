@@ -1,0 +1,129 @@
+# HTMX Documentation
+
+## Using hx-indicator for Loading Spinners
+
+The `hx-indicator` attribute allows you to show/hide a loading spinner or any other element during HTMX requests.
+
+### How It Works
+
+HTMX provides built-in CSS classes for indicators:
+- `htmx-indicator` class - Elements with this class are hidden by default (opacity: 0)
+- `htmx-request` class - HTMX applies this class to the indicator element during a request
+- The `htmx-indicator` class automatically makes the element visible when its parent has the `htmx-request` class
+
+You don't need to add any custom CSS—HTMX provides all the styling by default.
+
+### Basic Implementation
+
+1. **Create your spinner element** and add the `htmx-indicator` class:
+```html
+<div class="loading-spinner htmx-indicator"></div>
+```
+
+2. **Add CSS for your spinner design** (only the visual styling):
+```css
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(37, 99, 235, 0.2);
+    border-top: 3px solid #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+```
+
+3. **Link the spinner to your button** using `hx-indicator`:
+```html
+<button hx-post="/endpoint"
+        hx-target="#result"
+        hx-swap="outerHTML"
+        hx-indicator=".loading-spinner">
+    Submit
+</button>
+<div class="loading-spinner htmx-indicator"></div>
+```
+
+### CSS Selectors for hx-indicator
+
+Use either **class selectors** or **ID selectors** depending on your needs:
+
+**Class selector** (recommended for reusable spinners):
+```html
+hx-indicator=".loading-spinner"
+```
+
+**ID selector** (when you need a specific spinner):
+```html
+hx-indicator="#loading-spinner"
+```
+
+### How It Works Under the Hood
+
+When you click a button with `hx-indicator=".loading-spinner"`:
+
+1. HTMX finds the element matching the selector (`.loading-spinner`)
+2. During the request, HTMX adds the `htmx-request` class to that element
+3. The built-in HTMX CSS rule `.htmx-request .htmx-indicator { opacity: 1; }` makes it visible
+4. When the request completes, the `htmx-request` class is removed
+5. The spinner hides again automatically
+
+### Multiple Spinners
+
+You can have multiple spinners with the same class, and they'll all respond to `hx-indicator=".loading-spinner"`:
+
+```html
+<button hx-post="/submit" hx-indicator=".loading-spinner">
+    Submit
+</button>
+<div class="loading-spinner htmx-indicator"></div>
+
+<button hx-post="/delete" hx-indicator=".loading-spinner">
+    Delete
+</button>
+<div class="loading-spinner htmx-indicator"></div>
+```
+
+Both spinners will show when either button is clicked (if they use the same selector).
+
+### Common Pattern
+
+The typical pattern in this project is:
+
+```html
+<div class="button-group">
+    <button type="button"
+            hx-post="/userform/submit"
+            hx-target="#form-section"
+            hx-swap="outerHTML swap:1s"
+            hx-indicator=".loading-spinner">
+        Submit Form
+    </button>
+    <div class="loading-spinner htmx-indicator"></div>
+</div>
+```
+
+This places the spinner right next to the button with flexbox alignment and shows it during the HTMX request.
+
+### Customizing Opacity Transition
+
+If you want to customize how the spinner fades in/out, add a transition to your spinner class:
+
+```css
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(37, 99, 235, 0.2);
+    border-top: 3px solid #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transition: opacity 0.3s ease;  /* Smooth fade in/out */
+}
+```
+
+The `htmx-indicator` class opacity behavior is handled by HTMX by default, and the transition makes the visibility change smooth.

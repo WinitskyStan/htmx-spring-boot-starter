@@ -13,7 +13,7 @@ The demo implements an interactive counter that increments on button click witho
 - **Spring Boot** 3.2.1 — lightweight Java web framework
 - **Java** 17 — modern language features
 - **Thymeleaf** — server-side template engine with fragment support
-- **HTMX** 1.9.10 — low JavaScript dependency for dynamic updates
+- **HTMX** 2.0.7 — low JavaScript dependency for dynamic updates
 - **Maven** — build and dependency management
 
 ## Project Structure

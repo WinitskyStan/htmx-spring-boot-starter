@@ -97,7 +97,7 @@ public String validateForm(@Valid @ModelAttribute("userForm") UserForm form,
 **CSS Structure:**
 ```html
 <head>
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.7"></script>
     <link rel="stylesheet" href="https://unpkg.com/@rgs/base-styles@latest/base.css">
     <style>
         /* Minimal custom CSS for validation errors */

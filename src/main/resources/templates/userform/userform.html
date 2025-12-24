@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Form Validation Demo</title>
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.7"></script>
     <link rel="stylesheet" href="https://unpkg.com/@rgs/base-styles@latest/base.css">
     <style>
         body {
@@ -201,6 +201,27 @@
         div > div {
             margin-bottom: 18px;
         }
+
+        .button-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(37, 99, 235, 0.2);
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -297,12 +318,16 @@
 
                 <!-- Submit Button -->
                 <div style="margin-top: 30px;">
-                    <button type="button"
-                            hx-post="/userform/submit"
-                            hx-target="#form-section"
-                            hx-swap="outerHTML swap:1s">
-                        Submit Form
-                    </button>
+                    <div class="button-group">
+                        <button type="button"
+                                hx-post="/userform/submit"
+                                hx-target="#form-section"
+                                hx-swap="outerHTML swap:1s"
+                                hx-indicator=".loading-spinner">
+                            Submit Form
+                        </button>
+                        <div class="loading-spinner htmx-indicator"></div>
+                    </div>
                 </div>
             </form>
         </div>
