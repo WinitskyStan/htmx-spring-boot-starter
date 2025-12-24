@@ -66,7 +66,7 @@
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 12px 24px;
+            padding: 12px 24px 12px 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -208,13 +208,16 @@
             gap: 15px;
         }
 
-        .loading-spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(37, 99, 235, 0.2);
-            border-top: 3px solid #2563eb;
+        .spinner-inline {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
         }
 
         @keyframes spin {
@@ -318,16 +321,15 @@
 
                 <!-- Submit Button -->
                 <div style="margin-top: 30px;">
-                    <div class="button-group">
-                        <button type="button"
-                                hx-post="/userform/submit"
-                                hx-target="#form-section"
-                                hx-swap="outerHTML swap:1s"
-                                hx-indicator=".loading-spinner">
-                            Submit Form
-                        </button>
-                        <div class="loading-spinner htmx-indicator"></div>
-                    </div>
+                    <button type="button"
+                            hx-post="/userform/submit"
+                            hx-target="#form-section"
+                            hx-swap="outerHTML"
+                            hx-indicator=".spinner-inline"
+                            style="display: flex; align-items: center; justify-content: center;">
+                        <span class="spinner-inline htmx-indicator"></span>
+                        Submit Form
+                    </button>
                 </div>
             </form>
         </div>
