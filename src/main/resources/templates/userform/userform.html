@@ -31,7 +31,7 @@
 
         <div id="form-section" th:fragment="form-section" th:object="${userForm}">
             <form hx-post="/userform/validate"
-                  hx-trigger="change from:input:not(#newTag), change from:select, change from:textarea delay:300ms"
+                  hx-trigger="change from:#name, change from:#email, change from:#phone"
                   hx-target="#form-section"
                   hx-swap="outerHTML">
 
