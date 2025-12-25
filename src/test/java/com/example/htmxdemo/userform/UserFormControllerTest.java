@@ -44,7 +44,7 @@ class UserFormControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity("/userform/validate", formData, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("class=\"error\"");
+        assertThat(response.getBody()).contains("is-invalid");
     }
 
     @Test
@@ -54,7 +54,7 @@ class UserFormControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity("/userform/validate", formData, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("class=\"error\"");
+        assertThat(response.getBody()).contains("is-invalid");
     }
 
     @Test
@@ -64,7 +64,7 @@ class UserFormControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity("/userform/validate", formData, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("class=\"error\"");
+        assertThat(response.getBody()).contains("is-invalid");
     }
 
     @Test
@@ -94,7 +94,7 @@ class UserFormControllerTest {
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("class=\"tag\"");
+        assertThat(response.getBody()).contains("badge");
     }
 
     @Test
@@ -125,6 +125,6 @@ class UserFormControllerTest {
             String.class
         );
 
-        assertThat(response.getBody()).contains("error");
+        assertThat(response.getBody()).contains("is-invalid");
     }
 }

@@ -7,20 +7,55 @@ The `hx-indicator` attribute allows you to show/hide a loading spinner or any ot
 ### How It Works
 
 HTMX provides built-in CSS classes for indicators:
-- `htmx-indicator` class - Elements with this class are hidden by default (opacity: 0)
-- `htmx-request` class - HTMX applies this class to the indicator element during a request
-- The `htmx-indicator` class automatically makes the element visible when its parent has the `htmx-request` class
+- `htmx-indicator` class - Marks elements that should be shown/hidden during requests
+- `htmx-request` class - HTMX applies this class during a request
 
-You don't need to add any custom CSS—HTMX provides all the styling by default.
+**Important:** By default, HTMX uses `opacity` to hide/show indicators. This means indicators take up space even when hidden (opacity: 0). We override this with `display: none/inline-block` to prevent spinners from taking up space and making buttons grow.
 
-### Basic Implementation
+### Best Practice: Spinner in Button with Bootstrap
+
+When placing a spinner inside a button (recommended for better UX), use `display: none/inline-block` to prevent the button from growing when the spinner is hidden:
+
+```html
+<!-- In your CSS -->
+<style>
+    .htmx-indicator {
+        display: none;
+    }
+
+    .htmx-indicator.htmx-request {
+        display: inline-block;
+    }
+</style>
+
+<!-- In your HTML -->
+<button type="button"
+        class="btn btn-primary"
+        hx-post="/endpoint"
+        hx-target="#result"
+        hx-swap="outerHTML"
+        hx-indicator=".submit-spinner">
+    <span class="spinner-border spinner-border-sm me-2 htmx-indicator submit-spinner" aria-hidden="true"></span>
+    <span>Submit</span>
+</button>
+```
+
+**Key points:**
+- The spinner is completely hidden by default (`display: none`) so it takes up no space
+- When HTMX makes a request, it adds the `htmx-request` class, making the spinner visible
+- The margin (`me-2`) adds spacing between the spinner and text when visible
+- Bootstrap's `.spinner-border` provides the visual styling
+
+### Basic Implementation (Separate Spinner)
+
+If you prefer a spinner outside the button:
 
 1. **Create your spinner element** and add the `htmx-indicator` class:
 ```html
 <div class="loading-spinner htmx-indicator"></div>
 ```
 
-2. **Add CSS for your spinner design** (only the visual styling):
+2. **Add CSS for your spinner design**:
 ```css
 .loading-spinner {
     width: 24px;
@@ -29,6 +64,11 @@ You don't need to add any custom CSS—HTMX provides all the styling by default.
     border-top: 3px solid #2563eb;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+    display: none;
+}
+
+.loading-spinner.htmx-request {
+    display: inline-block;
 }
 
 @keyframes spin {
@@ -38,7 +78,7 @@ You don't need to add any custom CSS—HTMX provides all the styling by default.
 }
 ```
 
-3. **Link the spinner to your button** using `hx-indicator`:
+3. **Link the spinner to your button**:
 ```html
 <button hx-post="/endpoint"
         hx-target="#result"
@@ -55,75 +95,120 @@ Use either **class selectors** or **ID selectors** depending on your needs:
 
 **Class selector** (recommended for reusable spinners):
 ```html
-hx-indicator=".loading-spinner"
+hx-indicator=".submit-spinner"
 ```
 
 **ID selector** (when you need a specific spinner):
 ```html
-hx-indicator="#loading-spinner"
+hx-indicator="#submit-spinner"
 ```
 
 ### How It Works Under the Hood
 
-When you click a button with `hx-indicator=".loading-spinner"`:
+When you click a button with `hx-indicator=".submit-spinner"`:
 
-1. HTMX finds the element matching the selector (`.loading-spinner`)
+1. HTMX finds the element matching the selector
 2. During the request, HTMX adds the `htmx-request` class to that element
-3. The built-in HTMX CSS rule `.htmx-request .htmx-indicator { opacity: 1; }` makes it visible
+3. Your CSS rule `.htmx-indicator.htmx-request { display: inline-block; }` makes it visible
 4. When the request completes, the `htmx-request` class is removed
-5. The spinner hides again automatically
+5. The spinner hides again automatically (back to `display: none`)
+
+### CSS Override: Why display: none Instead of Opacity
+
+By default, HTMX's built-in CSS uses this pattern:
+```css
+/* HTMX default behavior */
+.htmx-indicator { opacity: 0; }
+.htmx-request .htmx-indicator { opacity: 1; }
+```
+
+This approach hides indicators with opacity but they still occupy space in the DOM, making buttons grow when spinners are inside them.
+
+**Our override** uses `display` instead:
+```css
+/* Our custom override */
+.htmx-indicator { display: none; }
+.htmx-indicator.htmx-request { display: inline-block; }
+```
+
+This completely removes the element from the document flow when hidden, preventing buttons from changing size. When HTMX adds the `htmx-request` class, we show it as `inline-block` so it appears next to the button text without wrapping.
+
+### Using Bootstrap Spinners
+
+This project uses Bootstrap's spinner components with HTMX:
+
+```html
+<!-- In your template head -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- In your CSS -->
+<style>
+    .htmx-indicator {
+        display: none;
+    }
+
+    .htmx-indicator.htmx-request {
+        display: inline-block;
+    }
+</style>
+
+<!-- In your form -->
+<button type="button"
+        class="btn btn-primary"
+        hx-post="/userform/submit"
+        hx-target="#form-section"
+        hx-swap="outerHTML"
+        hx-indicator=".submit-spinner">
+    <span class="spinner-border spinner-border-sm me-2 htmx-indicator submit-spinner" aria-hidden="true"></span>
+    <span>Submit Form</span>
+</button>
+```
+
+Bootstrap classes used:
+- `.btn .btn-primary` - Styled button
+- `.spinner-border` - Bootstrap's spinner animation
+- `.spinner-border-sm` - Small size suitable for buttons
+- `.me-2` - Margin-end spacing between spinner and text
+- `aria-hidden="true"` - Hide decorative spinner from screen readers
 
 ### Multiple Spinners
 
-You can have multiple spinners with the same class, and they'll all respond to `hx-indicator=".loading-spinner"`:
+You can have multiple spinners with the same class:
 
 ```html
-<button hx-post="/submit" hx-indicator=".loading-spinner">
+<button hx-post="/submit" hx-indicator=".submit-spinner">
+    <span class="spinner-border spinner-border-sm me-2 htmx-indicator submit-spinner"></span>
     Submit
 </button>
-<div class="loading-spinner htmx-indicator"></div>
 
-<button hx-post="/delete" hx-indicator=".loading-spinner">
+<button hx-post="/delete" hx-indicator=".delete-spinner">
+    <span class="spinner-border spinner-border-sm me-2 htmx-indicator delete-spinner"></span>
     Delete
 </button>
-<div class="loading-spinner htmx-indicator"></div>
 ```
 
-Both spinners will show when either button is clicked (if they use the same selector).
+Each button has its own unique spinner class to show/hide independently.
 
-### Common Pattern
+### Validation with Bootstrap
 
-The typical pattern in this project is:
+Bootstrap's form validation classes work seamlessly with HTMX:
 
 ```html
-<div class="button-group">
-    <button type="button"
-            hx-post="/userform/submit"
-            hx-target="#form-section"
-            hx-swap="outerHTML swap:1s"
-            hx-indicator=".loading-spinner">
-        Submit Form
-    </button>
-    <div class="loading-spinner htmx-indicator"></div>
+<div class="mb-3">
+    <label for="email" class="form-label">Email *</label>
+    <input type="email"
+           id="email"
+           class="form-control"
+           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+           th:field="*{email}">
+    <div th:if="${#fields.hasErrors('email')}"
+         th:errors="*{email}"
+         class="invalid-feedback">
+    </div>
 </div>
 ```
 
-This places the spinner right next to the button with flexbox alignment and shows it during the HTMX request.
-
-### Customizing Opacity Transition
-
-If you want to customize how the spinner fades in/out, add a transition to your spinner class:
-
-```css
-.loading-spinner {
-    width: 24px;
-    height: 24px;
-    border: 3px solid rgba(37, 99, 235, 0.2);
-    border-top: 3px solid #2563eb;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    transition: opacity 0.3s ease;  /* Smooth fade in/out */
-}
-```
-
-The `htmx-indicator` class opacity behavior is handled by HTMX by default, and the transition makes the visibility change smooth.
+Bootstrap classes:
+- `.form-control` - Input styling
+- `.is-invalid` - Red border for error states
+- `.invalid-feedback` - Error message styling
