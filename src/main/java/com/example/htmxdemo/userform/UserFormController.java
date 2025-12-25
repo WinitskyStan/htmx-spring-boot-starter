@@ -42,10 +42,13 @@ public class UserFormController {
     public String addTag(@ModelAttribute("userForm") UserForm form,
                          @RequestParam(value = "newTag", required = false) String newTag,
                          Model model) {
-        if (newTag != null && !newTag.trim().isEmpty()) {
-            userFormService.addTag(form, newTag);
+        if (newTag == null || newTag.trim().isEmpty()) {
+            model.addAttribute("newTagError", "Tag is required");
+            return "userform/userform :: tag-section";
         }
-        return "userform/userform :: tag-list";
+        userFormService.addTag(form, newTag);
+        model.addAttribute("newTagError", null);
+        return "userform/userform :: tag-section";
     }
 
     @PostMapping("/userform/remove-tag")
