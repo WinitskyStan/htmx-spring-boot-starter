@@ -109,7 +109,7 @@
                                 class="btn-close btn-close-white"
                                 style="font-size: 0.5rem;"
                                 hx-post="/userform/remove-tag"
-                                hx-vals='{"index": [[${iter.index}]]}'
+                                th:hx-vals="'js:{index: ' + ${iter.index} + '}'"
                                 hx-target="#tag-list"
                                 hx-swap="outerHTML"
                                 aria-label="Remove tag"></button>
