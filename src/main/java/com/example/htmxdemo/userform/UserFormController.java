@@ -46,7 +46,14 @@ public class UserFormController {
             model.addAttribute("newTagError", "Tag is required");
             return "userform/userform :: tag-section";
         }
-        userFormService.addTag(form, newTag);
+
+        String trimmedTag = newTag.trim();
+        if (form.getTags().stream().anyMatch(tag -> tag.equalsIgnoreCase(trimmedTag))) {
+            model.addAttribute("newTagError", "Tag already exists");
+            return "userform/userform :: tag-section";
+        }
+
+        userFormService.addTag(form, trimmedTag);
         model.addAttribute("newTagError", null);
         return "userform/userform :: tag-section";
     }
