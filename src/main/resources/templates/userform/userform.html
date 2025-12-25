@@ -120,16 +120,16 @@
                     <div class="input-group">
                         <input type="text"
                                id="newTag"
+                               name="newTag"
                                class="form-control"
                                th:classappend="${newTagError != null} ? 'is-invalid' : ''"
                                placeholder="Enter a new tag">
                         <button type="button"
                                 class="btn btn-primary"
                                 hx-post="/userform/add-tag"
-                                hx-vals='js:{newTag: document.getElementById("newTag").value}'
+                                hx-include="#newTag"
                                 hx-target="#tag-section"
-                                hx-swap="outerHTML"
-                                hx-on::after-request="if(event.detail.successful) document.getElementById('newTag').value = ''">
+                                hx-swap="outerHTML">
                             Add Tag
                         </button>
                     </div>
