@@ -212,3 +212,48 @@ Bootstrap classes:
 - `.form-control` - Input styling
 - `.is-invalid` - Red border for error states
 - `.invalid-feedback` - Error message styling
+
+### Managing Multiple Actions: Form Validation + Separate Buttons
+
+When you have a form with automatic validation triggers AND separate action buttons (like add-tag), you need to prevent the form's trigger from interfering with the button's action.
+
+**The Problem:**
+```html
+<!-- Form with validation trigger -->
+<form hx-post="/validate"
+      hx-trigger="change from:input delay:300ms">
+    <!-- form fields -->
+</form>
+
+<!-- Separate action outside form -->
+<input id="newTag" type="text">
+<button hx-post="/add-tag">Add</button>
+```
+
+When you tab out of the input, the form's `change from:input` trigger catches the event because event delegation bubbles up, calling `/validate` instead of `/add-tag`.
+
+**The Solution: Exclude inputs with CSS selectors**
+
+Use the `:not()` selector to exclude specific inputs from the form's trigger:
+
+```html
+<form hx-post="/validate"
+      hx-trigger="change from:input:not(#newTag) delay:300ms">
+    <!-- form fields -->
+</form>
+
+<!-- Separate action -->
+<input id="newTag" type="text">
+<button hx-post="/add-tag"
+        hx-vals='js:{newTag: document.getElementById("newTag").value}'>
+    Add
+</button>
+```
+
+**Key points:**
+- `hx-trigger="change from:input:not(#newTag)"` - Excludes #newTag from the form's validation trigger
+- The button uses `hx-vals='js:{...}'` to explicitly capture and send the newTag value
+- Place the separate input/button outside the form to keep concerns separated
+- Use unique IDs and exclude them from form triggers to prevent conflicts
+
+This pattern keeps form validation automatic while allowing independent actions on separate inputs.

@@ -31,7 +31,7 @@
 
         <div id="form-section" th:fragment="form-section" th:object="${userForm}">
             <form hx-post="/userform/validate"
-                  hx-trigger="change from:input, change from:select, change from:textarea delay:300ms"
+                  hx-trigger="change from:input:not(#newTag), change from:select, change from:textarea delay:300ms"
                   hx-target="#form-section"
                   hx-swap="outerHTML">
 
@@ -84,42 +84,6 @@
                     </div>
                 </div>
 
-                <!-- Tags Section -->
-                <div class="mb-3">
-                    <h5 class="mb-3">Tags</h5>
-                    <div id="tag-list" th:fragment="tag-list" class="d-flex flex-wrap gap-2 mb-3" style="min-height: auto;">
-                        <span th:each="tag, iter : ${userForm.tags}"
-                              class="badge bg-primary d-inline-flex align-items-center gap-1 py-1 px-2">
-                            <span th:text="${tag}"></span>
-                            <button type="button"
-                                    class="btn-close btn-close-white"
-                                    style="font-size: 0.5rem;"
-                                    hx-post="/userform/remove-tag"
-                                    hx-vals='{"index": [[${iter.index}]]}'
-                                    hx-target="#tag-list"
-                                    hx-swap="outerHTML"
-                                    aria-label="Remove tag"></button>
-                        </span>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="text"
-                               id="newTag"
-                               name="newTag"
-                               class="form-control"
-                               placeholder="Enter a new tag">
-                        <button type="button"
-                                class="btn btn-primary"
-                                hx-post="/userform/add-tag"
-                                hx-include="#newTag"
-                                hx-target="#tag-list"
-                                hx-swap="outerHTML"
-                                onclick="document.getElementById('newTag').value = ''">
-                            Add Tag
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Submit Button -->
                 <div class="mt-4">
                     <button type="button"
@@ -133,6 +97,41 @@
                     </button>
                 </div>
             </form>
+
+            <!-- Tags Section (Outside form to avoid validation trigger conflicts) -->
+            <div class="mb-3 mt-4">
+                <h5 class="mb-3">Tags</h5>
+                <div id="tag-list" th:fragment="tag-list" class="d-flex flex-wrap gap-2 mb-3" style="min-height: auto;">
+                    <span th:each="tag, iter : ${userForm.tags}"
+                          class="badge bg-primary d-inline-flex align-items-center gap-1 py-1 px-2">
+                        <span th:text="${tag}"></span>
+                        <button type="button"
+                                class="btn-close btn-close-white"
+                                style="font-size: 0.5rem;"
+                                hx-post="/userform/remove-tag"
+                                hx-vals='{"index": [[${iter.index}]]}'
+                                hx-target="#tag-list"
+                                hx-swap="outerHTML"
+                                aria-label="Remove tag"></button>
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <input type="text"
+                           id="newTag"
+                           class="form-control"
+                           placeholder="Enter a new tag">
+                    <button type="button"
+                            class="btn btn-primary"
+                            hx-post="/userform/add-tag"
+                            hx-vals='js:{newTag: document.getElementById("newTag").value}'
+                            hx-target="#tag-list"
+                            hx-swap="outerHTML"
+                            hx-on::after-request="if(event.detail.successful) document.getElementById('newTag').value = ''">
+                        Add Tag
+                    </button>
+                </div>
+            </div>
         </div>
             </div>
         </div>
