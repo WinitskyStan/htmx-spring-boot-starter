@@ -1,0 +1,127 @@
+[
+  {
+    "id": 1,
+    "name": "Setup development environment",
+    "description": "Install necessary tools, configure IDE, and set up project dependencies for local development."
+  },
+  {
+    "id": 2,
+    "name": "Create user authentication",
+    "description": "Implement login/signup functionality with JWT tokens and password hashing."
+  },
+  {
+    "id": 3,
+    "name": "Design database schema",
+    "description": "Plan and create the database structure for the application including all tables and relationships."
+  },
+  {
+    "id": 4,
+    "name": "Write API documentation",
+    "description": "Document all API endpoints with request/response examples and error codes."
+  },
+  {
+    "id": 5,
+    "name": "Implement caching strategy",
+    "description": "Add Redis caching layer to improve application performance and reduce database load."
+  },
+  {
+    "id": 6,
+    "name": "Setup CI/CD pipeline",
+    "description": "Configure automated testing and deployment pipeline using GitHub Actions or similar."
+  },
+  {
+    "id": 7,
+    "name": "Create error handling middleware",
+    "description": "Build comprehensive error handling and logging system for production reliability."
+  },
+  {
+    "id": 8,
+    "name": "Write unit tests",
+    "description": "Create comprehensive unit tests with high code coverage for core business logic."
+  },
+  {
+    "id": 9,
+    "name": "Implement search functionality",
+    "description": "Add advanced search capabilities with filters and full-text search support."
+  },
+  {
+    "id": 10,
+    "name": "Setup monitoring and alerts",
+    "description": "Configure application monitoring, logging, and alerting for production environment."
+  },
+  {
+    "id": 11,
+    "name": "Create admin dashboard",
+    "description": "Build administrative interface for managing users, content, and system settings."
+  },
+  {
+    "id": 12,
+    "name": "Implement file upload",
+    "description": "Add file upload functionality with validation, storage, and retrieval capabilities."
+  },
+  {
+    "id": 13,
+    "name": "Setup email notifications",
+    "description": "Configure email service for sending notifications and transactional emails."
+  },
+  {
+    "id": 14,
+    "name": "Create mobile app",
+    "description": "Develop a mobile application that connects to the backend API."
+  },
+  {
+    "id": 15,
+    "name": "Implement role-based access control",
+    "description": "Add user roles and permissions system to control feature access."
+  },
+  {
+    "id": 16,
+    "name": "Optimize database queries",
+    "description": "Analyze and optimize slow queries using indexing and query optimization techniques."
+  },
+  {
+    "id": 17,
+    "name": "Create data backup system",
+    "description": "Implement automated daily backups and disaster recovery procedures."
+  },
+  {
+    "id": 18,
+    "name": "Setup SSL/TLS certificates",
+    "description": "Configure HTTPS and SSL certificates for secure communication."
+  },
+  {
+    "id": 19,
+    "name": "Implement rate limiting",
+    "description": "Add API rate limiting to prevent abuse and protect against DDoS attacks."
+  },
+  {
+    "id": 20,
+    "name": "Create user profile page",
+    "description": "Build user profile interface for viewing and editing personal information."
+  },
+  {
+    "id": 21,
+    "name": "Implement two-factor authentication",
+    "description": "Add 2FA support using TOTP or SMS for enhanced account security."
+  },
+  {
+    "id": 22,
+    "name": "Setup analytics tracking",
+    "description": "Integrate analytics service to track user behavior and application metrics."
+  },
+  {
+    "id": 23,
+    "name": "Create notification system",
+    "description": "Build real-time notification system using WebSockets or Server-Sent Events."
+  },
+  {
+    "id": 24,
+    "name": "Implement data encryption",
+    "description": "Add encryption for sensitive data at rest and in transit."
+  },
+  {
+    "id": 25,
+    "name": "Create API rate limiting",
+    "description": "Implement request throttling to protect API from abuse."
+  }
+]
