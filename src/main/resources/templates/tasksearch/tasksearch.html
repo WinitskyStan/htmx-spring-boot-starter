@@ -35,12 +35,10 @@
                                 <div class="list-group" th:if="${!#lists.isEmpty(tasks)}">
                                     <a th:each="task : ${tasks}"
                                        class="list-group-item list-group-item-action"
-                                       th:attr="data-task-name=${task.name}"
                                        th:hx-get="@{/tasksearch/{id}(id=${task.id})}"
                                        hx-target="#task-detail"
                                        hx-swap="innerHTML"
-                                       hx-on::after-request="selectTask(this)">
-                                        <span th:text="${task.name}">Task Name</span>
+                                       hx-on::after-request="selectTask(this)">[[${task.name}]]
                                     </a>
                                 </div>
                                 <div class="alert alert-info mb-0" th:if="${query != null and !query.isEmpty() and #lists.isEmpty(tasks)}">
@@ -76,8 +74,7 @@
 
     <script>
         function selectTask(element) {
-            document.getElementById('task-search-input').value = 
-                element.getAttribute('data-task-name');
+            document.getElementById('task-search-input').value = element.innerHTML.trim(); 
             closeDropdown();
         }
 
